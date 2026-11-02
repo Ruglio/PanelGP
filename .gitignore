@@ -1,0 +1,12 @@
+__pycache__/
+*.egg-info/
+/.venv/
+
+# Inputs are downloaded or licensed (README.md).
+/data/*.parquet
+/data/*.csv
+
+# Fitted models and generated exhibits
+/results/runs/
+/results/paper/tables/
+/results/paper/figures/

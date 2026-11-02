@@ -1,0 +1,50 @@
+# Empirical application (Section 6): fixed training, RBF loadings and factors, H = 5.
+# scripts/run_case.py applies the kernel pair, H, seed and evaluation period of
+# each campaign case (panelgp.experiments.campaign). Paths are relative to the
+# directory the scripts are run from (the repository root).
+runtime:
+  device: auto
+  seed: 1
+data:
+  panel_file: data/jkp_usa.parquet
+  macro_file: data/goyal_monthly.csv
+  membership_file: data/sp500_constituents.csv
+  start_year: 1960
+  end_year: 2024
+  # The model uses the JKP characteristics observed for at least 70% of the
+  # S&P 500 stock-months of 1960-1989 (the fixed training period); stock-months
+  # need at least 70% of these characteristics.
+  minimum_row_share: 0.7
+  minimum_characteristic_share: 0.7
+  screening_years: [1960, 1989]
+  context_columns: [retx, tms, dfy, svar, avgcor, infl]
+  # Inflation for month t is published in t+1: use the value of t-1 (Welch-Goyal).
+  context_lags:
+    infl: 1
+  log_context: [svar]
+run:
+  protocol: fixed
+  train_start: 1960-01
+  validation_start: 1990-01
+  test_start: 1995-01
+  test_end: 2024-12
+  training_months: 360  # trailing window of annual re-estimation
+model:
+  hidden_dim: 5
+  loading_kernel: rbf
+  factor_kernel: rbf
+  inducing_points: 160  # at least P + 1 = 138: affine loadings are exact
+  loading_lengthscale: auto  # sqrt(P/12) for P selected characteristics
+  factor_lengthscale: 2.449489742783178  # sqrt(Q), standardized context
+  shared_innovations: false
+training:
+  epochs: 500
+  batch_size: 2048
+  elbo_samples: 64
+  factor_sampling: antithetic
+  variational_lr: 0.01
+  hyperparameter_lr: 0.005
+  gradient_clip: 1.0
+  milestone_fractions: [0.3, 0.5, 0.6, 0.7, 0.8, 0.9]
+  scheduler_factor: 0.5
+  log_interval: 10

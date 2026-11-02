@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "panelgp"
+version = "1.0.0"
+description = "PanelGP: a probabilistic factor model for asset-return panels"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "numpy>=1.26,<3",
+  "pandas>=2.0",
+  "PyYAML>=6.0",
+  "scipy>=1.10",
+  "torch==2.9.1",
+  "pyarrow>=14",
+]
+
+[project.optional-dependencies]
+benchmark = ["ipca>=0.6.7", "scikit-learn>=1.3"]
+plots = ["matplotlib>=3.7"]
+paper = ["matplotlib>=3.7", "pypdf>=5", "statsmodels>=0.14"]
+test = ["pytest>=8", "matplotlib>=3.7", "statsmodels>=0.14"]
+all = ["ipca>=0.6.7", "matplotlib>=3.7", "pytest>=8", "scikit-learn>=1.3", "pypdf>=5", "statsmodels>=0.14"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu128", marker = "sys_platform == 'linux'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true

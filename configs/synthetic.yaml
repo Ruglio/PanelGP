@@ -1,0 +1,29 @@
+# Controlled simulation (Section 5). The panel seed equals the training seed.
+runtime:
+  device: auto
+  seed: 1
+simulation:
+  assets: 80
+  months: 50
+  loading_innovation: 0.05
+  factor_innovation: 0.05
+  noise: 0.05
+model:
+  hidden_dim: 2
+  loading_kernel: rbf
+  factor_kernel: rbf
+  inducing_points: 64
+  loading_lengthscale: 0.408248290463863  # sqrt(2/12), inputs uniform on [0, 1]
+  factor_lengthscale: 0.28867513459481287  # sqrt(1/12)
+  shared_innovations: true  # isotropic D_beta and D_phi, as in the design
+training:
+  epochs: 5000
+  batch_size: 2048
+  elbo_samples: 64
+  factor_sampling: antithetic
+  variational_lr: 0.01
+  hyperparameter_lr: 0.005
+  gradient_clip: 1.0
+  milestone_fractions: [0.3, 0.5, 0.6, 0.7, 0.8, 0.9]
+  scheduler_factor: 0.5
+  log_interval: 100
