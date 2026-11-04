@@ -1,7 +1,7 @@
 # PanelGP: A Probabilistic Factor Model for Asset-Return Panels
 
-Replication package of Ruglioni, A., and Filipovic, D. (2026), *PanelGP: A
-Probabilistic Factor Model for Asset-Return Panels*, working paper, EPFL.
+Replication package of Ruglioni, A., and Filipovic, D. (2026), [*PanelGP: A
+Probabilistic Factor Model for Asset-Return Panels*](https://arxiv.org/abs/2611.04040), working paper, EPFL.
 The model is the Python package `panelgp` in `src/`.
 
 ## Overview
